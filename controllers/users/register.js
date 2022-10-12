@@ -1,16 +1,20 @@
+const bcrypt = require("bcrypt");
+const gravatar = require('gravatar');
 const { User } = require("../../models");
 const { RequestError } = require("../../helpers");
-const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
    
     const { password, email, subscription } = req.body;
     const user = await User.findOne({ email });
-    const hachPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+    
+   
     if (user) {
-        throw RequestError(409, `User with ${email} alredy exist!`);
+        throw RequestError(409, `User ${email} alredy exist!`);
     }
-    await User.create({ password: hachPassword, email, subscription });
+    const hachPassword = await bcrypt.hash(password, 10);
+    const avatarURL = gravatar.url(email);
+    await User.create({ password: hachPassword, email, subscription, avatarURL });
     res.status(201).json({
         status: "success",
         code: 201,
