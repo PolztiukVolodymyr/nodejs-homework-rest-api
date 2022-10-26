@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
+const { v4 } = require('uuid');
 const gravatar = require('gravatar');
 const { User } = require("../../models");
-const { v4 } = require('uuid');
 const { RequestError, sendEmail } = require("../../helpers");
 
 const register = async (req, res) => {
