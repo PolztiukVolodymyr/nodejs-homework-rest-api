@@ -16,9 +16,9 @@ const login = async (req, res) => {
         throw RequestError(401, `Email ${email} not found`);
     };
 
-    if (!user.verify) {
-        throw RequestError(401, `User is not verify`);
-    };
+    // if (!user.verify) {
+    //     throw RequestError(401, "User is not verify");
+    // };
 
     const passCompare = bcrypt.compareSync(password, user.password);
     if (!passCompare) {
