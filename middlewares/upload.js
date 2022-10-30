@@ -15,8 +15,4 @@ const upload = multer({
     limits: {fieldSize: 2000000}
 });
 
-<<<<<<< HEAD
 module.exports = upload;
-=======
-module.exports = upload;
->>>>>>> 483c538 (returned avatar)
