@@ -11,16 +11,24 @@ const login = async (req, res) => {
  
     const { password, email } = req.body;
     const user = await User.findOne({ email });
+
     if (!user) {
         throw RequestError(401, `Email ${email} not found`);
     };
+
+    // if (!user.verify) {
+    //     throw RequestError(401, "User is not verify");
+    // };
+
     const passCompare = bcrypt.compareSync(password, user.password);
     if (!passCompare) {
         throw RequestError(401, "Password is wrong");
     };
+
     const payload = {
         id: user._id
     };
+
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
     await User.findByIdAndUpdate(user._id, { token });
     res.json({
